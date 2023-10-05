@@ -4,7 +4,7 @@ I dag skal vi arbejde med at implementere en GPT-3 chatbot i en react-native app
 
 KOM ENDELIG MED FEEDBACK OM I KAN LIDE DENNE FORM FOR VEJLEDNING <3 <br>
 
-### Opsætning af projekt
+## Opsætning af projekt
 
 Start med at oprette et nyt react-native projekt med expo-cli. 
 
@@ -17,7 +17,7 @@ Sluk herefter serveren og installer de nødvendige komponenter med:
 
 ``` npm install @react-native-gesture-handler @react-native-gifted-chat @react-native-safe-area-context @react-navigation/native-stack @react-navigation/native @react-native-async-storage/async-storage @axios```
 
-### Stack navigation
+## Stack navigation
 
 Vi skal bruge en stack navigation til at navigere mellem vores sider.
 <br>
@@ -31,7 +31,7 @@ Stack navigationen skal have 2 sider, en til vores chat og en til vores home scr
 <br>
 Hvis du ikke kan huske hvordan man gør, så kig i [dokumentationen](https://reactnavigation.org/docs/stack-navigator/) eller i vores navigations øvelse.
 
-### HomeScreen
+## HomeScreen.js
 
 Før vi kan arbejde med vores chatbot, skal vi have lavet en home screen hvor vi kan vælge at starte en chat.
 <br>
@@ -51,22 +51,25 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 ```
 
-#### HomeScreen logik
-I vores HomeScreen function skal vi oprette to useStates til at hente vores valgte chatbots.
+### HomeScreen logik
+I vores **HomeScreen function** skal vi oprette 2 useStates til at hente vores valgte chatbots.
 Vi skal også hente vores navigation. 
 
 ```javascript
-//Håndtere ChatBotValg
+  //Håndtere ChatBotValg
   const [chatFaceData, setChatFaceData] = useState([]);
   const [selectedChatFace, setSelectedChatFace] = useState([]);
   //Får navigation til at virke
   const navgitaion = useNavigation();
 ```
 Dette er en React Hook ved navn useState, der bruges til at oprette en tilstandsvariabel og en funktion til at opdatere denne tilstand. <br>
-chatFaceData er en tilstandsvariabel, som initialt er sat til et tomt array. <br>
-setChatFaceData er en funktion, der kan bruges til at opdatere værdien af chatFaceData.
+
+``chatFaceData`` er en tilstandsvariabel, som initialt er sat til et tomt array. <br>
+
+``setChatFaceData`` er en funktion, der kan bruges til at opdatere værdien af chatFaceData.
 <br>
-Det samme gælder for selectedChatFace.
+
+Det samme gælder for ``selectedChatFace``.
 
 
 Herefter laver vi en useEffect til at hente vores valgte chatbot.
@@ -78,13 +81,16 @@ Herefter laver vi en useEffect til at hente vores valgte chatbot.
   }, []);
 ```
 useEffect er en hook i React, der giver mulighed for at udføre sideeffekter i funktionelle komponenter. <br>
+
 Den tager to argumenter: en funktion, der indeholder den kode, der skal køres `` setChatFaceData ``, og en afhængighedsarray `` [] ``. <br>
 
 Afhængighedsarrayen i useEffect bestemmer, hvornår effekten skal køres.
+
 Hvis det er tomt (som det er i denne kode), vil useEffect kun køre én gang lige efter komponenten er monteret (lignende componentDidMount i klassebaserede komponenter).
+
 Hvis der var værdier inde i denne array, ville useEffect køre, når en af disse værdier ændres.
 
-
+#### checkFaceId function
 Vi skal også lave en asynkron funktion `` checkFaceId `` der gemmer vores valg af chatbot i vores AsyncStorage.
 ```javascript
 //Håndere valg af chatbot (Gemmer valg)
@@ -110,7 +116,7 @@ Hvis id har en sandhedsværdi, vil `` setSelectedChatFace(ChatFaceData[id]) `` b
 Hvis id ikke har en sandhedsværdi (dvs. det er falskt), vil `` setSelectedChatFace(ChatFaceData[0]) `` blive kaldt i stedet. Dette vil sætte selectedChatFace tilstanden til den første værdi i ChatFaceData arrayet.
 
 
-
+#### onChatFacePress function
 Til sidst laver vi en funktion der håndtere at vi kan skifte imellem dem.
 ```javascript
 //Håndtere valg af chatbot (Skifte mellem dem)
@@ -124,7 +130,7 @@ Funktionen onChatFacePress tager en parameter id. Når den kaldes, opdaterer den
 Denne funktion kan blive brugt, når en bruger klikker/tapper på et chat ansigt i en brugerflade, hvorefter det valgte ansigt bliver gemt for fremtidige referencer.
 
 
-#### Return function i HomeScreen
+### Return function i HomeScreen
 Vi skal lave 2 views til at wrappe resten af vores frontend. 
 ```javascript
 return (
@@ -137,7 +143,7 @@ return (
   );
 ```
 
-Lad os starte med at indsætte følgende kode.
+Lad os starte med at indsætte følgende kode i dit view.
 ```javascript
         {/*Titel*/}
         <Text style={[{ color: selectedChatFace?.primary }, { fontSize: 30 }]}>
@@ -165,7 +171,6 @@ Koden fungere således: <br>
 Vi bruger en Text komponent til at vise en titel, undertitel og en besked. <br>
 
 Vi bruger også en Image komponent til at vise vores chatbot. <br>
-
 
 Vi har nu lavet en titel, undertitel, billede og en besked. <br>
 
@@ -237,7 +242,7 @@ Til sidst skal vi lave en knap til chatten
 
 Din HomeScreen er nu næsten done. <br>
 
-#### Hent vores ChatBots
+### Hent vores ChatBots
 
 Vi skal nu hente vores ChatBots fra en ny mappe. <br>
 
@@ -301,7 +306,9 @@ import ChatFaceData from "../services/ChatFaceData";
 
 Du er nu done med HomeScreen. Check at det virker ved at kører koden med npm start <br>
 
-### ChatScreen.js
+## ChatScreen
+
+### RequestPage.js
 
 Start med at oprette en ny fil i din services mappe kaldt RequestPage.js. <br>
 
@@ -354,7 +361,7 @@ Vi eksporterer en asynkron funktion ved navn SendMessage, der tager en parameter
 Derefter forsøger den at foretage en POST-anmodning til OpenAI API'en ved hjælp af axios.request. Hvis anmodningen lykkes, returnerer den svaret fra API'en. Hvis anmodningen mislykkes, udskriver den en fejl i konsollen. <br>
 
 
-
+### ChatScreen.js
 Vi skal nu oprette en ny fil i vores komponents mappe kaldt ChatScreen.js. <br>
 
 I ChatScreen.js skal du importer følgende:
@@ -393,6 +400,7 @@ og en useEffect til at hente vores valgte chatbot. <br>
     }, [])
 ```
 
+#### checkFaceId function
 Nu skal vi lave en function der håndtere vores valgte chatbot og sender en valgt besked. <br>
 
 ```javascript
@@ -428,6 +436,7 @@ Slutteligt initialiserer den beskedhistorikken (setMessages) med en enkelt beske
 Kort sagt, checkFaceId funktionen tjekker, hvilken chatbot der tidligere er blevet valgt (hvis nogen), sætter chatbotens visuelle repræsentation, og initialiserer en introduktionsbesked fra den valgte chatbot.
 
 
+#### onSend function
 Vi skal nu lave en function der håndtere når vi sender en besked. <br>
 
 ```javascript
@@ -444,6 +453,8 @@ Vi skal nu lave en function der håndtere når vi sender en besked. <br>
 
 Funktionen onSend tager en parameter messages. Når den kaldes, opdaterer den beskedhistorikken (setMessages) ved at tilføje de nye beskeder til den eksisterende beskedhistorik. Denne funktion kan blive brugt, når en bruger sender en besked i en brugerflade, hvorefter beskeden bliver tilføjet til beskedhistorikken.
 
+
+#### getBardResp function
 Vi skal nu lave en function der håndtere når vi modtager en besked fra vores bot <br>
 
 ```javascript
@@ -497,7 +508,7 @@ Funktionen getBardResp tager en parameter msg. Når den kaldes, sætter den tils
 
 Når API'en svarer, sætter funktionen loading til false, hvilket fjerner loading animationen fra brugerfladen. Derefter tjekker den, om API'en har svaret med en besked (response.data.BOT). Hvis den har, opretter den en besked med svaret fra API'en og tilføjer den til beskedhistorikken. Hvis den ikke har, opretter den en besked med en standardfejlmeddelelse og tilføjer den til beskedhistorikken. <br>
 
-
+#### renderBubble, renderInputToolbar og renderSend function
 Vi laver nu en function der laver en bobble til vores chat. <br>
 
 ```javascript
@@ -573,6 +584,8 @@ const  renderSend=(props)=> {
 
 Funktionen renderSend tager en parameter props. Når den kaldes, returnerer den en Send komponent fra react-native-gifted-chat. Denne funktion kan blive brugt, når en bruger sender en besked i en brugerflade, hvorefter beskeden bliver vist i en send knap. <br>
 
+
+#### Return function
 Til sidst skal vi nu lave en return function der indeholder vores chat. <br>
 
 ```javascript
