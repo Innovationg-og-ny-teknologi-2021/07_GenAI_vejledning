@@ -17,6 +17,39 @@ Sluk herefter serveren og installer de nødvendige komponenter med:
 
 ``` npm install @react-native-gesture-handler @react-native-gifted-chat @react-native-safe-area-context @react-navigation/native-stack @react-navigation/native @react-native-async-storage/async-storage @axios```
 
+Check at jeres package.json ser således ud sådan ca:
+```javascript
+{
+    "name": "10_chatbot_facit",
+        "version": "1.0.0",
+        "main": "node_modules/expo/AppEntry.js",
+        "scripts": {
+        "start": "expo start",
+            "android": "expo start --android",
+            "ios": "expo start --ios",
+            "web": "expo start --web"
+    },
+    "dependencies": {
+        "@react-native-async-storage/async-storage": "^1.19.3",
+            "@react-navigation/native": "^6.1.8",
+            "@react-navigation/native-stack": "^6.9.14",
+            "@react-navigation/stack": "^6.3.18",
+            "axios": "^1.5.1",
+            "expo": "~49.0.13",
+            "expo-status-bar": "~1.6.0",
+            "react": "18.2.0",
+            "react-native": "0.72.5",
+            "react-native-gesture-handler": "^2.13.1",
+            "react-native-gifted-chat": "^2.4.0",
+            "react-native-safe-area-context": "^4.7.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.20.0"
+    },
+    "private": true
+}
+``` 
+
 ## Stack navigation
 
 Vi skal bruge en stack navigation til at navigere mellem vores sider.
