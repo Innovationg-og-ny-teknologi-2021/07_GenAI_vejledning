@@ -591,5 +591,15 @@ Til sidst skal vi nu lave en return function der indeholder vores chat. <br>
 ChatScreen.js skulle nu gerne være done.
 
 
-
 I er nu done med jeres ChatBot. <B>Highfive! ᕦ(▀̿ ̿ -▀̿ ̿ )つ</B>
+
+Her er en checkliste til at se om I har alle filerne:
+
+# Fil Checkliste
+
+- [ ] `StackNavigator.js`
+- [ ] `App.js`
+- [ ] `HomeScreen.js`
+- [ ] `ChatScreen.js`
+- [ ] `ChatFaceData.js`
+- [ ] `Request.js`
